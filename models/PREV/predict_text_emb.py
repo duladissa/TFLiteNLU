@@ -6,12 +6,12 @@ import tensorflow as tf
 vocab = codecs.open('text.vocab','r').read().split('\n')
 label = codecs.open('label.vocab','r').read().split('\n')
 
-maxlen = 10
+maxlen = 12
 embedding_size = 50
 
 
 embeddings = dict()
-f = open('classifier_embd.vec')
+f = open('embeddings.vec')
 c = 0
 for line in f:
     values = line.split()
@@ -41,10 +41,10 @@ def process_query(query):
     return f_.reshape(maxlen, embedding_size)
         
 
-sent = 'when is the showtime'
+sent = 'question and '
 sent = process_query(sent)
 
-interpreter = tf.lite.Interpreter(model_path='converted_model.tflite')
+interpreter = tf.lite.Interpreter(model_path='model.tflite')
 
 try:
   interpreter.allocate_tensors()

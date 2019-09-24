@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 
 class Classify():
-    maxlen = 12
+    maxlen = 10
     embedding_size = 50
     embeddings = dict()
     interpreter = {}
@@ -12,13 +12,13 @@ class Classify():
     label = {}
 
     def __init__(self):
-        self.interpreter = tf.lite.Interpreter(model_path='/app/models/model.tflite')
+        self.interpreter = tf.lite.Interpreter(model_path='/app/models/converted_model.tflite')
         self.vocab = codecs.open('/app/models/text.vocab','r').read().split('\n');
         self.label = codecs.open('/app/models/label.vocab','r').read().split('\n');
         self.loadEmbeddings()
 
     def loadEmbeddings(self):
-        f = open('/app/models/embeddings.vec');
+        f = open('/app/models/classifier_embd.vec');
         c = 0;
         for line in f:
             values = line.split();
