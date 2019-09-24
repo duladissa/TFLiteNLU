@@ -4,6 +4,7 @@ from flask_restful import Resource, Api
 from json import dumps
 from classify import Classify
 import os
+import datetime
 
 app = Flask(__name__)
 api = Api(app)
@@ -12,7 +13,14 @@ api = Api(app)
 class NLU(Resource):
     classify = Classify()
     def get(self):
-        return self.classify.processQuery()
+        text = request.args.get('text')
+        startTime = datetime.datetime.now()
+        intent = self.classify.classify(text)
+        endTime = datetime.datetime.now()
+
+        delta = endTime - startTime
+        deltaMil = int(delta.total_seconds() * 1000)
+        return {'intent': intent, 'time': ("%s%s" % (deltaMil, "ms"))}
     
     def post(self):
         return {'status':'POST'}
