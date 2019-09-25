@@ -15,12 +15,17 @@ class NLU(Resource):
     def get(self):
         text = request.args.get('text')
         startTime = datetime.datetime.now()
-        intent = self.classify.classify(text)
+        response = self.classify.classify(text)
         endTime = datetime.datetime.now()
 
         delta = endTime - startTime
         deltaMil = int(delta.total_seconds() * 1000)
-        return {'intent': intent, 'time': ("%s%s" % (deltaMil, "ms"))}
+
+        score = ("%s"%response['score'])
+        #rest = ("%s"%response['rest'])
+        #prediction = ("%s"%response['prediction'])
+        return {'intent': response['intent'], 'time': ("%s%s" % (deltaMil, "ms")),
+                'score': score}
     
     def post(self):
         return {'status':'POST'}

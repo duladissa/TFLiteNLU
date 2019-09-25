@@ -64,4 +64,10 @@ class Classify():
             result = self.interpreter.get_tensor(output_index)
             self.interpreter.reset_all_variables()
             prediction = np.argmax(result)
-            return self.label[prediction]
+            score = np.amax(result)
+            response = dict();
+            response['intent'] = self.label[prediction]
+            response['score']   = score
+            response['prediction'] = prediction
+            response['rest'] = result
+            return response
